@@ -48,13 +48,12 @@ const mockReviews = {
 
 function ProductPage() {
   const { id } = useParams();
-  const { addToCart } = useContext(CartContext); // Get addToCart from context
+  const { addToCart } = useContext(CartContext);
   const [product, setProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState(null); // State to handle errors
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Find the product by ID from the imported products array
     const foundProduct = products.find(prod => prod.id === Number(id));
     if (foundProduct) {
       setProduct(foundProduct);
@@ -63,26 +62,21 @@ function ProductPage() {
     }
   }, [id]);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const productReviews = mockReviews[id] || [];
 
   const handleAddToCart = () => {
     if (product) {
-      addToCart(product); // Add the product to the cart
-      toast.success(`${product.title} has been added to your cart!`); // Show a success toast notification
+      addToCart(product);
+      toast.success(`${product.title} has been added to your cart!`);
     }
   };
 
   const handleARMode = () => {
     if (product && product.arModel) {
-      window.location.href = `ar.html?model=${encodeURIComponent(product.arModel)}`; // Redirect to AR view
+      window.location.href = `/ar.html?model=${encodeURIComponent(product.arModel)}`;
     } else {
       toast.error("This product does not have an AR model available.");
     }
@@ -91,27 +85,21 @@ function ProductPage() {
   return product ? (
     <div className="product-page">
       <div className="product-container">
-        {/* Product Image */}
         <div className="product-image-large" onClick={openModal} style={{ cursor: 'pointer' }}>
           <img src={product.image} alt={product.title} />
         </div>
 
-        {/* Product Details */}
         <div className="product-details">
           <h1 className="product-title-large">{product.title}</h1>
           <p className="product-category">{product.category.toUpperCase()}</p>
           <p className="product-price-large">${product.price}</p>
           <p className="product-description">{product.description}</p>
 
-          {/* Add to Cart Button with Functionality */}
           <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
-
-          {/* AR Mode Button */}
           <button className="ar-mode-button" onClick={handleARMode}>AR Mode</button>
         </div>
       </div>
 
-      {/* Reviews Section Under Product */}
       <div className="reviews-section">
         <h2>Customer Reviews</h2>
         {productReviews.length > 0 ? (
@@ -127,13 +115,12 @@ function ProductPage() {
         )}
       </div>
 
-      {/* Modal for 3D Model Viewer */}
-      {isModalOpen && (
+      {isModalOpen && product.modelUrl && (
         <Modal onClose={closeModal}>
           <ModelViewer modelUrl={product.modelUrl} imageUrl={product.image} title={product.title} />
         </Modal>
       )}
-      {error && <p className="error-message">{error}</p>} {/* Error message display */}
+      {error && <p className="error-message">{error}</p>}
     </div>
   ) : (
     <p>Loading...</p>
