@@ -3,15 +3,17 @@ import '@google/model-viewer';
 
 function ModelViewer({ modelUrl, imageUrl, title }) {
   const [isModelAccessible, setIsModelAccessible] = useState(true);
-  const [isLoading, setIsLoading] = useState(true); // Track loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if the model URL is accessible before loading it
+    // Perform a HEAD request to verify if the model file is accessible
     fetch(modelUrl, { method: 'HEAD' })
       .then((response) => {
         if (!response.ok) {
           console.error(`Model file not found at ${modelUrl}. Response: ${response.statusText}`);
           setIsModelAccessible(false);
+        } else {
+          console.log(`Model file is accessible at ${modelUrl}.`);
         }
       })
       .catch((error) => {
@@ -37,8 +39,8 @@ function ModelViewer({ modelUrl, imageUrl, title }) {
           auto-rotate
           camera-controls
           style={{ width: '100%', height: '400px' }}
-          onError={() => {
-            console.error('Failed to load the model:', modelUrl);
+          onError={(error) => {
+            console.error('Failed to load the model:', error);
             setIsModelAccessible(false);
           }}
         ></model-viewer>
