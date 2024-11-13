@@ -65,10 +65,20 @@ function ProductPage() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const productReviews = mockReviews[id] || [];
+
   const handleAddToCart = () => {
     if (product) {
       addToCart(product);
       toast.success(`${product.title} has been added to your cart!`);
+    }
+  };
+
+  const handleARMode = () => {
+    if (product && product.arModel) {
+      window.location.href = `/ar.html?model=${encodeURIComponent(product.arModel)}`;
+    } else {
+      toast.error("This product does not have an AR model available.");
     }
   };
 
@@ -86,7 +96,23 @@ function ProductPage() {
           <p className="product-description">{product.description}</p>
 
           <button className="add-to-cart-button" onClick={handleAddToCart}>Add to Cart</button>
+          <button className="ar-mode-button" onClick={handleARMode}>AR Mode</button>
         </div>
+      </div>
+
+      <div className="reviews-section">
+        <h2>Customer Reviews</h2>
+        {productReviews.length > 0 ? (
+          productReviews.map((review) => (
+            <div key={review.id} className="review">
+              <p className="review-username">{review.username}</p>
+              <p className="review-rating">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</p>
+              <p className="review-text">{review.text}</p>
+            </div>
+          ))
+        ) : (
+          <p>No reviews yet for this product.</p>
+        )}
       </div>
 
       {isModalOpen && product.modelUrl && (
