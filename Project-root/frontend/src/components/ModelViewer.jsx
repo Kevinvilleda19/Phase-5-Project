@@ -1,21 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@google/model-viewer';
 
 function ModelViewer({ modelUrl, imageUrl, title }) {
+  const [isModelLoaded, setIsModelLoaded] = useState(true);
+
   useEffect(() => {
     if (!window.customElements.get('model-viewer')) {
       console.warn("ModelViewer: '@google/model-viewer' not loaded correctly.");
     }
-  }, []);
 
-  // Ensures a root-relative path to avoid 404 errors
+    // Test the URL by attempting to load it as a HEAD request to verify accessibility
+    fetch(modelUrl, { method: 'HEAD' })
+      .then((response) => {
+        if (!response.ok) {
+          console.error(`Model file not found at ${modelUrl}. Response: ${response.statusText}`);
+          setIsModelLoaded(false);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching model file:', error);
+        setIsModelLoaded(false);
+      });
+  }, [modelUrl]);
+
   const validModelUrl = modelUrl.startsWith('/') ? modelUrl : `/${modelUrl}`;
 
   return (
     <div className="model-viewer">
-      {modelUrl ? (
+      {isModelLoaded ? (
         <model-viewer
-          src={validModelUrl} // Use modelUrl or validModelUrl here instead of modelFileName
+          src={validModelUrl}
           ios-src={validModelUrl.replace('.glb', '.usdz')} // Optional for iOS if USDZ exists
           alt={title}
           ar
@@ -23,7 +37,10 @@ function ModelViewer({ modelUrl, imageUrl, title }) {
           auto-rotate
           camera-controls
           style={{ width: '100%', height: '400px' }}
-          onError={(e) => console.error('Failed to load the model:', validModelUrl, e)}
+          onError={(e) => {
+            console.error('Failed to load the model:', validModelUrl, e);
+            setIsModelLoaded(false); // Fallback to the image if the model fails
+          }}
         ></model-viewer>
       ) : (
         <img src={imageUrl} alt={title} style={{ width: '100%', height: '100%' }} />
