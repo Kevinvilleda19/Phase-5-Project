@@ -37,7 +37,7 @@ const products = [
         }
     },
     {
-        id: 4,
+    id: 4,
         title: "Elegant Small Nightstand Dresser",
         description: "Enhance your bedroom decor with our Elegant Small Nightstand Dresser, a perfect blend of style and functionality. Crafted from high-quality materials, this compact dresser features a sleek design that fits seamlessly into any space, making it ideal for smaller rooms or as an accent piece in larger settings.",
         price: 199.99,
@@ -47,8 +47,8 @@ const products = [
             rate: 4.1,
             count: 240
         },
-        modelUrl: "/models/trim_sheet__example_dresser (1).glb", // Link to the dresser image
-        arModel: "/models/trim_sheet__example_dresser (1).glb" // AR Model path
+        modelUrl: "/models/trim_sheet__example_dresser%20%281%29.glb",
+        arModel: "/models/trim_sheet__example_dresser%20%281%29.glb"
     },
     {
         id: 5,
