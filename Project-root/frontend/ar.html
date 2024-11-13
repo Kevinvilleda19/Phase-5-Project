@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AR View</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script>
+      // Function to get URL parameters
+      function getParameterByName(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+
+      // Set the model URL based on the URL parameter
+      window.onload = function () {
+        const modelUrl = getParameterByName('model');
+        if (modelUrl) {
+          const modelEntity = document.querySelector('a-entity[gltf-model]');
+          modelEntity.setAttribute('gltf-model', `url(${modelUrl})`);
+        } else {
+          alert('No model URL provided!');
+        }
+      };
+    </script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs>
+      <a-marker preset="hiro">
+        <a-entity gltf-model="url(#)" scale="0.1 0.1 0.1"></a-entity> <!-- Placeholder for the model URL -->
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
