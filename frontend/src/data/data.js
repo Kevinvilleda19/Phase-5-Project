@@ -111,7 +111,7 @@ const products = [
         title: "Elegant Gold and Black Watch",
         description: "This stunning watch features a stylish gold case with a black dial, making it a perfect accessory for any outfit. Designed with precision and elegance, it combines modern aesthetics with functionality. The intricate mechanical design of the watch's face is sure to impress, making it ideal for both casual and formal occasions.",
         price: 149.99,
-        image: "https://i.postimg.cc/jd5VMCMG/Watch.jpg", // Replace with the actual image URL for the watch
+        image: "https://i.postimg.cc/bNzTV5vv/Watch.jpg", // Replace with the actual image URL for the watch
         category: "Accessories",
         rating: {
             rate: 4.5,
