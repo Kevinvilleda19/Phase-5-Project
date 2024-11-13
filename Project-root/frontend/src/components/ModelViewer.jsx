@@ -6,7 +6,7 @@ function ModelViewer({ modelUrl, imageUrl, title }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Perform a HEAD request to check if the model file is accessible
+    // Check if model file is accessible without JSON parsing
     fetch(modelUrl, { method: 'HEAD' })
       .then((response) => {
         if (!response.ok) {
