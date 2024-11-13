@@ -12,11 +12,11 @@ function ModelViewer({ modelUrl, imageUrl, title }) {
     <div className="model-viewer">
       {modelUrl ? (
         <model-viewer
-          src={modelUrl}
-          ios-src={modelUrl.replace('.glb', '.usdz')} // Optional: auto-convert path for iOS if you have a USDZ model
+          src={modelUrl} // Ensure this path is correct
+          ios-src={modelUrl.replace('.glb', '.usdz')} // Optional: only if a USDZ file exists
           alt={title}
           ar
-          ar-modes="webxr scene-viewer quick-look" // Ensures compatibility across Android and iOS
+          ar-modes="webxr scene-viewer quick-look"
           auto-rotate
           camera-controls
           style={{ width: '100%', height: '400px' }}
